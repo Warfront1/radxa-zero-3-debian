@@ -1,0 +1,49 @@
+# --- API Keys & Secrets ---
+.env
+.env.local
+.env.*.local
+*.env
+
+# --- JetBrains IDEs (IntelliJ, PyCharm, etc.) ---
+.idea/
+# Junie CLI runtime state (sessions, plans, logs, cache) — keep only baked defaults.
+.junie/*
+!.junie/settings.json
+*.iml
+*.iws
+*.ipr
+out/*
+!out/.gitkeep
+gen/
+
+# --- VS Code ---
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# --- Docker & System ---
+.docker/
+Thumbs.db
+.DS_Store
+*.log
+*.tmp*
+.tmp*
+*.temp
+*.tar
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# --- AI output ---
+.output.txt
+
+# --- Build inputs (large binaries, mounted at runtime, never committed) ---
+resources/*
+!resources/.gitkeep
+*.img

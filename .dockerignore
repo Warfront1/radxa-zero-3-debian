@@ -1,0 +1,6 @@
+# Large binaries arrive via runtime volume mounts, not build context
+resources/
+out/
+.git/
+.idea/
+*.img
