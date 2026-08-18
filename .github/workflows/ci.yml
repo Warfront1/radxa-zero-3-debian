@@ -1,0 +1,80 @@
+name: build-release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Pinned inputs — must match the defaults in scripts/build-image.sh.
+# If you bump a pin there, bump it here too.
+env:
+  DEBIAN_VERSION: '13.6.0'
+  DEBIAN_ISO_SHA256: '0e170d9ff0c53f7b59c8d35793b8ce308ceffd519f8370b949995634e22f5b09'
+
+jobs:
+  build-release:
+    # arm64 native: the build chroots into an arm64 rootfs (build-image.sh:167)
+    # and cannot run arm64 binaries on x86_64. See DEVELOPERS.md.
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t radxa-zero-3-debian .
+
+      - name: Build image artifact
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          docker run --rm \
+            -v "$PWD/out:/output" \
+            radxa-zero-3-debian
+
+      - name: Verify artifact
+        run: |
+          set -euo pipefail
+          test -s out/debian-zero3e.img
+          sha256sum out/debian-zero3e.img | tee out/debian-zero3e.img.sha256
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: debian-zero3e-image
+          path: |
+            out/debian-zero3e.img
+            out/debian-zero3e.img.sha256
+          retention-days: 14
+
+      - name: Compute release tag
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        id: reltag
+        run: |
+          set -euo pipefail
+          base="debian-${DEBIAN_VERSION}"
+          git fetch --tags origin
+          tag="$base"
+          n=1
+          while git rev-parse "refs/tags/${tag}" >/dev/null 2>&1; do
+            tag="${base}-${n}"
+            n=$((n + 1))
+          done
+          echo "Computed release tag: ${tag}"
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          tag="${{ steps.reltag.outputs.tag }}"
+          echo "Publishing release ${tag}"
+          gh release create "${tag}" \
+            --generate-notes \
+            --title "${tag}" \
+            out/debian-zero3e.img \
+            out/debian-zero3e.img.sha256
