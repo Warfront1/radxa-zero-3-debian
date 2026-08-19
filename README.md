@@ -11,7 +11,7 @@ Your Debian OS, assembled as open-source as possible in the USA :us:.
 
 </div>
 
-An easy-to-write Debian arm64 SD card image for the Radxa Zero 3E and 3W, built with mainline U-Boot and open-source TF-A BL31.<br>*3E only for now; 3W untested but likely functional.*
+An easy-to-write Debian arm64 SD card image for the Radxa Zero 3E and 3W.<br>*3E only for now; 3W untested but likely functional.*
 
 ## Flash the image
 
