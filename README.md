@@ -19,10 +19,22 @@ Prebuilt images are available on the
 [GitHub Releases page](https://github.com/Warfront1/radxa-zero-3-debian/releases).  
 Download `debian-zero3e.img`, then write it to your SD card:
 
+<details>
+<summary>Windows</summary>
+
+Use [Rufus](https://rufus.ie): pick the SD card, select `debian-zero3e.img`, hit Start.
+</details>
+
+<details>
+<summary>Linux / macOS</summary>
+
 ```sh
 # /dev/sdX = your SD card (use `lsblk` to find it) — not a partition (sdX1)
 sudo dd if=debian-zero3e.img of=/dev/sdX bs=4M status=progress conv=fsync
 ```
+
+On macOS, use `/dev/rdiskN` instead (faster) — find it with `diskutil list`.
+</details>
 
 ## First boot
 
@@ -34,10 +46,9 @@ sudo dd if=debian-zero3e.img of=/dev/sdX bs=4M status=progress conv=fsync
 The minimal image ships undersized to keep downloads small. Expand it to fill your SD card:
 
 ```sh
-# use `lsblk` to find your SD card
-# /dev/sdX = whole card, /dev/sdX1 = partition 1
-sudo parted /dev/sdX resizepart 1 100%
-sudo resize2fs /dev/sdX1
+# run on the booted board — /dev/mmcblk0 is the SD card (use `lsblk` to confirm)
+sudo parted /dev/mmcblk0 resizepart 1 100%
+sudo resize2fs /dev/mmcblk0p1
 ```
 
 ---
