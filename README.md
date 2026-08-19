@@ -1,7 +1,17 @@
+<div align="center">
+
 # radxa-zero-3-debian
 
 Your hardware, built in China :cn:  
 Your Debian OS, assembled as open-source as possible in the USA :us:.
+
+<img src="radxa-zero-3e.jpg" alt="Radxa Zero 3E board" width="300">
+
+[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/XCcQpEehej)
+
+</div>
+
+An easy-to-write Debian arm64 SD card image for the Radxa Zero 3E and 3W, built with mainline U-Boot and open-source TF-A BL31.<br>*3E only for now; 3W untested but likely functional.*
 
 ## Flash the image
 
