@@ -5,7 +5,7 @@
 Your hardware, built in China :cn:  
 Your Debian OS, assembled as open-source as possible in the USA :us:.
 
-<img src="radxa-zero-3e.jpg" alt="Radxa Zero 3E board" width="300">
+<img src="radxa-zero-3e.png" alt="Radxa Zero 3E board" width="300">
 
 [![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/XCcQpEehej)
 
