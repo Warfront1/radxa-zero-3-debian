@@ -206,7 +206,20 @@ rm -f /tmp/rootfs/etc/ssh/ssh_host_*_key /tmp/rootfs/etc/ssh/ssh_host_*_key.pub
 echo "==> [9/14] Configuring rootfs..."
 
 # Hostname
-echo "zero3e" > /tmp/rootfs/etc/hostname
+echo "zero3" > /tmp/rootfs/etc/hostname
+
+# Hosts file
+cat > /tmp/rootfs/etc/hosts <<'HOSTS'
+127.0.0.1 localhost
+127.0.1.1 zero3
+::1 localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+HOSTS
+
+# Remove /etc/machine-id so ConditionFirstBoot=yes fires on first boot and
+# sshd-keygen.service regenerates the host keys deleted above.
+rm -f /tmp/rootfs/etc/machine-id
 
 # Networking: systemd-networkd for Ethernet DHCP. systemd-resolved is a
 # separate package not on DVD-1, so we use a static resolv.conf instead.
