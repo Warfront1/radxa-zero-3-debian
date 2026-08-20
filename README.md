@@ -63,6 +63,15 @@ passwd <username>
 usermod -aG sudo <username>
 ```
 
+**The new user can log in via SSH using their password.** If you wish to prevent that, disable password authentication:
+
+```sh
+echo 'PasswordAuthentication no' > /etc/ssh/sshd_config.d/00-no-password.conf
+systemctl restart ssh
+```
+
+SSH access then requires a public key in `~/.ssh/authorized_keys`.
+
 Switch to the new user and verify `sudo` works **before** locking root:
 
 ```sh
