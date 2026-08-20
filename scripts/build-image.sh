@@ -217,9 +217,9 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 HOSTS
 
-# Empty /etc/machine-id so ConditionFirstBoot=yes fires on first boot and
+# Remove /etc/machine-id so ConditionFirstBoot=yes fires on first boot and
 # sshd-keygen.service regenerates the host keys deleted above.
-: > /tmp/rootfs/etc/machine-id
+rm -f /tmp/rootfs/etc/machine-id
 
 # Networking: systemd-networkd for Ethernet DHCP. systemd-resolved is a
 # separate package not on DVD-1, so we use a static resolv.conf instead.
